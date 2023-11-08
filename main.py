@@ -1,4 +1,5 @@
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPClassifier
 import pandas as pd
@@ -7,6 +8,10 @@ import numpy as np
 import csv
 import imageio.v2 as imageio
 import os
+
+########################################################################################################################
+# Step 2 ###############################################################################################################
+########################################################################################################################
 
 # Setting an option for printing all the columns when printing in the console
 pd.set_option('display.max_columns', None)
@@ -44,8 +49,11 @@ og_data_abalone = pd.read_csv('abalone.csv')
 og_data_abalone.to_csv('abalone/abalone_no_conversion.csv', index=False)
 
 
-def plot_class_distribution(data, output_col, save_as):
+########################################################################################################################
+# Step 2.2 #############################################################################################################
+########################################################################################################################
 
+def plot_class_distribution(data, output_col, save_as):
     # Ensure the directory exists
     gif_directory = "GIF"
     if not os.path.exists(gif_directory):
@@ -66,7 +74,7 @@ def plot_class_distribution(data, output_col, save_as):
 
     # Read the PNG image and save as a GIF
     image = imageio.imread(temp_filename)
-    imageio.mimsave(full_save_path, [image], duration=0.5)  # You can adjust the duration if needed
+    imageio.mimsave(full_save_path, [image], duration=0.5)
 
     # Remove the temporary PNG image
     os.remove(temp_filename)
@@ -80,4 +88,40 @@ plot_class_distribution(penguins_manual_data, 'species', 'penguin-manual-classes
 
 # Plot for the abalone dataset
 plot_class_distribution(og_data_abalone, 'Type', 'abalone-classes.gif')
+
+########################################################################################################################
+# Step 2.3 #############################################################################################################
+########################################################################################################################
+
+from sklearn.model_selection import train_test_split
+
+# Penguins dataset with 1-hot vector encoding
+# Separation of label and features
+penguins_hotv_features = penguins_hotv_data.drop('species', axis=1)
+penguins_hotv_label = penguins_hotv_data['species']
+
+# Splitting up data into training set and testing set for features and labels (1-hot vector encoding)
+penguins_hotv_features_train, penguins_hotv_features_test, penguins_hotv_label_train, penguins_hotv_label_test = train_test_split(
+    penguins_hotv_features, penguins_hotv_label
+)
+
+# Penguins dataset with manual categorical encoding
+# Separation of label and features
+penguins_manual_features = penguins_manual_data.drop('species', axis=1)
+penguins_manual_label = penguins_manual_data['species']
+
+# Splitting up data into training set and testing set for features and labels (manual categorical encoding)
+penguins_manual_features_train, penguins_manual_features_test, penguins_manual_label_train, penguins_manual_label_test = train_test_split(
+    penguins_manual_features, penguins_manual_label
+)
+
+# Abalone dataset
+# Separation of label and features
+abalone_features = og_data_abalone.drop('Type', axis=1)
+abalone_label = og_data_abalone['Type']
+
+# Splitting up data into training set and testing set for features and labels
+abalone_features_train, abalone_features_test, abalone_label_train, abalone_label_test = train_test_split(
+    abalone_features, abalone_label
+)
 
