@@ -1,0 +1,500 @@
+--------------------------------------------------
+(A) Model Evaluation: Base-DT-penguins-hotv
+
+(B) Confusion Matrix:
+[[104   0   0]
+ [  0  52   0]
+ [  0   0  93]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       1.00      1.00      1.00       104
+   Chinstrap       1.00      1.00      1.00        52
+      Gentoo       1.00      1.00      1.00        93
+
+    accuracy                           1.00       249
+   macro avg       1.00      1.00      1.00       249
+weighted avg       1.00      1.00      1.00       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 1.00
+Macro-average F1: 1.00
+Weighted-average F1: 1.00
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-DT-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5)
+
+(B) Confusion Matrix:
+[[104   0   0]
+ [  2  50   0]
+ [  1   0  92]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.97      1.00      0.99       104
+   Chinstrap       1.00      0.96      0.98        52
+      Gentoo       1.00      0.99      0.99        93
+
+    accuracy                           0.99       249
+   macro avg       0.99      0.98      0.99       249
+weighted avg       0.99      0.99      0.99       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.99
+Macro-average F1: 0.99
+Weighted-average F1: 0.99
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('mlp-hotv-penguins', ' activation=', 'logistic', ' solver=', 'sgd')
+
+(B) Confusion Matrix:
+[[104   0   0]
+ [ 52   0   0]
+ [ 93   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.42      1.00      0.59       104
+   Chinstrap       0.00      0.00      0.00        52
+      Gentoo       0.00      0.00      0.00        93
+
+    accuracy                           0.42       249
+   macro avg       0.14      0.33      0.20       249
+weighted avg       0.17      0.42      0.25       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.42
+Macro-average F1: 0.20
+Weighted-average F1: 0.25
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-mlp-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5, ' n_jobs=', -1)
+
+(B) Confusion Matrix:
+[[91  0 13]
+ [52  0  0]
+ [ 1  0 92]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.63      0.88      0.73       104
+   Chinstrap       0.00      0.00      0.00        52
+      Gentoo       0.88      0.99      0.93        93
+
+    accuracy                           0.73       249
+   macro avg       0.50      0.62      0.55       249
+weighted avg       0.59      0.73      0.65       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.73
+Macro-average F1: 0.55
+Weighted-average F1: 0.65
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: Base-DT-penguins-hotv
+
+(B) Confusion Matrix:
+[[107   0   0]
+ [  0  46   0]
+ [  0   0  96]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       1.00      1.00      1.00       107
+   Chinstrap       1.00      1.00      1.00        46
+      Gentoo       1.00      1.00      1.00        96
+
+    accuracy                           1.00       249
+   macro avg       1.00      1.00      1.00       249
+weighted avg       1.00      1.00      1.00       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 1.00
+Macro-average F1: 1.00
+Weighted-average F1: 1.00
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-DT-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5)
+
+(B) Confusion Matrix:
+[[107   0   0]
+ [  2  44   0]
+ [  1   0  95]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.97      1.00      0.99       107
+   Chinstrap       1.00      0.96      0.98        46
+      Gentoo       1.00      0.99      0.99        96
+
+    accuracy                           0.99       249
+   macro avg       0.99      0.98      0.99       249
+weighted avg       0.99      0.99      0.99       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.99
+Macro-average F1: 0.99
+Weighted-average F1: 0.99
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('mlp-hotv-penguins', ' activation=', 'logistic', ' solver=', 'sgd')
+
+(B) Confusion Matrix:
+[[107   0   0]
+ [ 46   0   0]
+ [ 96   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.43      1.00      0.60       107
+   Chinstrap       0.00      0.00      0.00        46
+      Gentoo       0.00      0.00      0.00        96
+
+    accuracy                           0.43       249
+   macro avg       0.14      0.33      0.20       249
+weighted avg       0.18      0.43      0.26       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.43
+Macro-average F1: 0.20
+Weighted-average F1: 0.26
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-mlp-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5, ' n_jobs=', -1)
+
+(B) Confusion Matrix:
+[[100   0   7]
+ [ 46   0   0]
+ [  2   0  94]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.68      0.93      0.78       107
+   Chinstrap       0.00      0.00      0.00        46
+      Gentoo       0.93      0.98      0.95        96
+
+    accuracy                           0.78       249
+   macro avg       0.54      0.64      0.58       249
+weighted avg       0.65      0.78      0.70       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.78
+Macro-average F1: 0.58
+Weighted-average F1: 0.70
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: Base-DT-penguins-hotv
+
+(B) Confusion Matrix:
+[[107   0   0]
+ [  0  51   0]
+ [  0   0  91]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       1.00      1.00      1.00       107
+   Chinstrap       1.00      1.00      1.00        51
+      Gentoo       1.00      1.00      1.00        91
+
+    accuracy                           1.00       249
+   macro avg       1.00      1.00      1.00       249
+weighted avg       1.00      1.00      1.00       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 1.00
+Macro-average F1: 1.00
+Weighted-average F1: 1.00
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-DT-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5)
+
+(B) Confusion Matrix:
+[[106   1   0]
+ [  0  51   0]
+ [  1   0  90]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.99      0.99      0.99       107
+   Chinstrap       0.98      1.00      0.99        51
+      Gentoo       1.00      0.99      0.99        91
+
+    accuracy                           0.99       249
+   macro avg       0.99      0.99      0.99       249
+weighted avg       0.99      0.99      0.99       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.99
+Macro-average F1: 0.99
+Weighted-average F1: 0.99
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('mlp-hotv-penguins', ' activation=', 'logistic', ' solver=', 'sgd')
+
+(B) Confusion Matrix:
+[[107   0   0]
+ [ 51   0   0]
+ [ 91   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.43      1.00      0.60       107
+   Chinstrap       0.00      0.00      0.00        51
+      Gentoo       0.00      0.00      0.00        91
+
+    accuracy                           0.43       249
+   macro avg       0.14      0.33      0.20       249
+weighted avg       0.18      0.43      0.26       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.43
+Macro-average F1: 0.20
+Weighted-average F1: 0.26
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-mlp-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5, ' n_jobs=', -1)
+
+(B) Confusion Matrix:
+[[92  0 15]
+ [50  0  1]
+ [ 1  0 90]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.64      0.86      0.74       107
+   Chinstrap       0.00      0.00      0.00        51
+      Gentoo       0.85      0.99      0.91        91
+
+    accuracy                           0.73       249
+   macro avg       0.50      0.62      0.55       249
+weighted avg       0.59      0.73      0.65       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.73
+Macro-average F1: 0.55
+Weighted-average F1: 0.65
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: Base-DT-penguins-hotv
+
+(B) Confusion Matrix:
+[[111   0   0]
+ [  0  54   0]
+ [  0   0  84]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       1.00      1.00      1.00       111
+   Chinstrap       1.00      1.00      1.00        54
+      Gentoo       1.00      1.00      1.00        84
+
+    accuracy                           1.00       249
+   macro avg       1.00      1.00      1.00       249
+weighted avg       1.00      1.00      1.00       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 1.00
+Macro-average F1: 1.00
+Weighted-average F1: 1.00
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-DT-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5)
+
+(B) Confusion Matrix:
+[[111   0   0]
+ [  0  54   0]
+ [  0   0  84]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       1.00      1.00      1.00       111
+   Chinstrap       1.00      1.00      1.00        54
+      Gentoo       1.00      1.00      1.00        84
+
+    accuracy                           1.00       249
+   macro avg       1.00      1.00      1.00       249
+weighted avg       1.00      1.00      1.00       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 1.00
+Macro-average F1: 1.00
+Weighted-average F1: 1.00
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('mlp-hotv-penguins', ' activation=', 'logistic', ' solver=', 'sgd')
+
+(B) Confusion Matrix:
+[[111   0   0]
+ [ 54   0   0]
+ [ 84   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.45      1.00      0.62       111
+   Chinstrap       0.00      0.00      0.00        54
+      Gentoo       0.00      0.00      0.00        84
+
+    accuracy                           0.45       249
+   macro avg       0.15      0.33      0.21       249
+weighted avg       0.20      0.45      0.27       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.45
+Macro-average F1: 0.21
+Weighted-average F1: 0.27
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-mlp-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5, ' n_jobs=', -1)
+
+(B) Confusion Matrix:
+[[111   0   0]
+ [ 54   0   0]
+ [ 84   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.45      1.00      0.62       111
+   Chinstrap       0.00      0.00      0.00        54
+      Gentoo       0.00      0.00      0.00        84
+
+    accuracy                           0.45       249
+   macro avg       0.15      0.33      0.21       249
+weighted avg       0.20      0.45      0.27       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.45
+Macro-average F1: 0.21
+Weighted-average F1: 0.27
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: Base-DT-penguins-hotv
+
+(B) Confusion Matrix:
+[[106   0   0]
+ [  0  47   0]
+ [  0   0  96]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       1.00      1.00      1.00       106
+   Chinstrap       1.00      1.00      1.00        47
+      Gentoo       1.00      1.00      1.00        96
+
+    accuracy                           1.00       249
+   macro avg       1.00      1.00      1.00       249
+weighted avg       1.00      1.00      1.00       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 1.00
+Macro-average F1: 1.00
+Weighted-average F1: 1.00
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-DT-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5)
+
+(B) Confusion Matrix:
+[[104   2   0]
+ [  0  47   0]
+ [  1   0  95]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.99      0.98      0.99       106
+   Chinstrap       0.96      1.00      0.98        47
+      Gentoo       1.00      0.99      0.99        96
+
+    accuracy                           0.99       249
+   macro avg       0.98      0.99      0.99       249
+weighted avg       0.99      0.99      0.99       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.99
+Macro-average F1: 0.99
+Weighted-average F1: 0.99
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('mlp-hotv-penguins', ' activation=', 'logistic', ' solver=', 'sgd')
+
+(B) Confusion Matrix:
+[[106   0   0]
+ [ 47   0   0]
+ [ 96   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.43      1.00      0.60       106
+   Chinstrap       0.00      0.00      0.00        47
+      Gentoo       0.00      0.00      0.00        96
+
+    accuracy                           0.43       249
+   macro avg       0.14      0.33      0.20       249
+weighted avg       0.18      0.43      0.25       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.43
+Macro-average F1: 0.20
+Weighted-average F1: 0.25
+--------------------------------------------------
+--------------------------------------------------
+(A) Model Evaluation: ('Top-mlp-hotv-penguins', ' scoring=', 'accuracy', ' cv=', 5, ' n_jobs=', -1)
+
+(B) Confusion Matrix:
+[[106   0   0]
+ [ 47   0   0]
+ [ 96   0   0]]
+
+(C) Classification Report:
+              precision    recall  f1-score   support
+
+      Adelie       0.43      1.00      0.60       106
+   Chinstrap       0.00      0.00      0.00        47
+      Gentoo       0.00      0.00      0.00        96
+
+    accuracy                           0.43       249
+   macro avg       0.14      0.33      0.20       249
+weighted avg       0.18      0.43      0.25       249
+
+
+(D) Model Performance Metrics:
+Accuracy: 0.43
+Macro-average F1: 0.20
+Weighted-average F1: 0.25
+--------------------------------------------------

@@ -75,7 +75,7 @@ def plot_class_distribution(data, output_col, save_as):
     if not os.path.exists(gif_directory):
         os.makedirs(gif_directory)
 
-    # Prepend directory to save_as
+    # Append directory to save_as
     full_save_path = os.path.join(gif_directory, save_as)
 
     class_counts = data[output_col].value_counts(normalize=True) * 100
@@ -109,22 +109,22 @@ plot_class_distribution(og_data_abalone, 'Type', 'abalone-classes.gif')
 # Step 2.3 #############################################################################################################
 ########################################################################################################################
 
-# Penguins dataset with 1-hot vector encoding
+# Penguins dataset with 1-hot vector
 # Separation of label and features
 penguins_hotv_features = penguins_hotv_data.drop('species', axis=1)
 penguins_hotv_label = penguins_hotv_data['species']
 
-# Splitting up data into training set and testing set for features and labels (1-hot vector encoding)
+# Splitting up data into training set and testing set for features and labels (1-hot vector)
 penguins_hotv_features_train, penguins_hotv_features_test, penguins_hotv_label_train, penguins_hotv_label_test = train_test_split(
     penguins_hotv_features, penguins_hotv_label
 )
 
-# Penguins dataset with manual categorical encoding
+# Penguins dataset with manual
 # Separation of label and features
 penguins_manual_features = penguins_manual_data.drop('species', axis=1)
 penguins_manual_label = penguins_manual_data['species']
 
-# Splitting up data into training set and testing set for features and labels (manual categorical encoding)
+# Splitting up data into training set and testing set for features and labels (manual)
 penguins_manual_features_train, penguins_manual_features_test, penguins_manual_label_train, penguins_manual_label_test = train_test_split(
     penguins_manual_features, penguins_manual_label
 )
@@ -145,7 +145,7 @@ abalone_features_train, abalone_features_test, abalone_label_train, abalone_labe
 ########################################################################################################################
 
 # I added the Step 5 function here because it caused errors when I initialize it at the end of the file
-# like if it was visible because it is not initialized yet
+# like if it was not visible because it is not initialized yet
 def evaluate_and_save_decision_tree_model(model, features_test, labels_test, model_description, filename):
     # Create the directory if it doesn't exist
     directory = '2.5'
@@ -223,7 +223,7 @@ train_and_save_base_decision_tree(penguins_manual_features_train, penguins_manua
 
 def perform_grid_search_and_visualize(features, labels, param_grid, base_dir, top_filename, scoring, cv, description,
                                       file_name):
-    # Initialize and fit the GridSearchCV
+    # GridSearchCV
     dt_grid_search = GridSearchCV(DecisionTreeClassifier(), param_grid, scoring=scoring, cv=cv)
     dt_grid_search.fit(features, labels)
 
@@ -240,6 +240,7 @@ def perform_grid_search_and_visualize(features, labels, param_grid, base_dir, to
     plt.savefig(os.path.join(base_dir, top_filename), format='png', bbox_inches='tight')
     plt.close()
 
+    # Modifying the description for an accurate description
     description = description, " scoring=", scoring, " cv=", cv
 
     evaluate_and_save_decision_tree_model(best_dt_model, features, labels, description, file_name)
@@ -273,6 +274,7 @@ def train_base_mlp(features, labels, description, file_name):
     # Train the model
     mlp_model.fit(features, labels)
 
+    # Modifying the description for an accurate description
     description = description, ' activation=', mlp_model.activation, ' solver=', mlp_model.solver
 
     evaluate_and_save_decision_tree_model(mlp_model, features, labels, description, file_name)
@@ -280,7 +282,6 @@ def train_base_mlp(features, labels, description, file_name):
     return mlp_model
 
 
-# Train the model for each dataset
 mlp_abalone = train_base_mlp(abalone_features_train, abalone_label_train, 'mlp-abalone', 'abalone-performance.txt')
 mlp_penguins_hotv = train_base_mlp(penguins_hotv_features_train, penguins_hotv_label_train, 'mlp-hotv-penguins',
                                    'penguins-hotv-performance.txt')
@@ -300,10 +301,12 @@ param_grid = {
 
 
 def perform_mlp_grid_search(features, labels, description, file_name):
+    # GridSearchCV with MLP
     mlp = MLPClassifier()
     grid_search = GridSearchCV(mlp, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
     grid_search.fit(features, labels)
 
+    # Modifying the description for an accurate description
     description = description, ' scoring=', grid_search.scoring, ' cv=', grid_search.cv, ' n_jobs=', grid_search.n_jobs
 
     evaluate_and_save_decision_tree_model(grid_search, features, labels, description, file_name)
@@ -311,7 +314,6 @@ def perform_mlp_grid_search(features, labels, description, file_name):
     return grid_search.best_estimator_
 
 
-# Apply the grid search to each dataset
 top_mlp_abalone = perform_mlp_grid_search(abalone_features_train, abalone_label_train, 'Top-mlp-abalone',
                                           'abalone-performance.txt')
 top_mlp_penguins_hotv = perform_mlp_grid_search(penguins_hotv_features_train, penguins_hotv_label_train,
@@ -324,3 +326,5 @@ top_mlp_penguins_manual = perform_mlp_grid_search(penguins_manual_features_train
 ########################################################################################################################
 
 # Step 2.5 has been moved to Step 2.4
+
+# Step 2.6 is into the 2.5 directory
