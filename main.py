@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPClassifier
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 import numpy as np
 import csv
 import imageio.v2 as imageio
@@ -125,3 +125,116 @@ abalone_features_train, abalone_features_test, abalone_label_train, abalone_labe
     abalone_features, abalone_label
 )
 
+
+########################################################################################################################
+# Step 2.4 #############################################################################################################
+########################################################################################################################
+
+########################################################################################################################
+# 4.a ##################################################################################################################
+########################################################################################################################
+def train_and_save_base_decision_tree(features, labels, max_depth, directory, filename):
+    # Create and train the decision tree model
+    decision_tree_model = DecisionTreeClassifier(max_depth=max_depth)
+    decision_tree_model.fit(features, labels)
+
+    # Save the decision tree model
+    # Create the directory if it doesn't exist
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    # Plot and save the decision tree
+    plt.figure(figsize=(20, 10))
+    plot_tree(decision_tree_model, filled=True, feature_names=features.columns,
+              class_names=np.unique(labels).astype(str), rounded=True)
+    plt.savefig(os.path.join(directory, filename), format='png', bbox_inches='tight')
+    plt.close()
+
+
+train_and_save_base_decision_tree(abalone_features_train, abalone_label_train, 3, '4.a', 'Base-DT-abalone.png')
+train_and_save_base_decision_tree(penguins_hotv_features_train, penguins_hotv_label_train, None, '4.a',
+                                  'Base-DT-hotv-penguins.png')
+train_and_save_base_decision_tree(penguins_manual_features_train, penguins_manual_label_train, None, '4.a',
+                                  'Base-DT-manual-penguins.png')
+
+
+########################################################################################################################
+# 4.b ##################################################################################################################
+########################################################################################################################
+
+def perform_grid_search_and_visualize(features, labels, param_grid, base_dir, top_filename, scoring, cv):
+    # Initialize and fit the GridSearchCV
+    dt_grid_search = GridSearchCV(DecisionTreeClassifier(), param_grid, scoring=scoring, cv=cv)
+    dt_grid_search.fit(features, labels)
+
+    # Get the best decision tree model
+    best_dt_model = dt_grid_search.best_estimator_
+
+    # Visualize and save the best decision tree model
+    if not os.path.exists(base_dir):
+        os.makedirs(base_dir)
+
+    plt.figure(figsize=(20, 10))
+    plot_tree(best_dt_model, filled=True, feature_names=features.columns, class_names=np.unique(labels).astype(str),
+              rounded=True)
+    plt.savefig(os.path.join(base_dir, top_filename), format='png', bbox_inches='tight')
+    plt.close()
+
+
+# Define the parameter grid
+param_grid = {
+    'criterion': ['gini', 'entropy'],
+    'max_depth': [4, 15, None],
+    'min_samples_split': [5, 50, 200]
+}
+
+perform_grid_search_and_visualize(abalone_features_train, abalone_label_train, param_grid, '4.b',
+                                  'Top-DT-abalone.png', 'accuracy', 5)
+perform_grid_search_and_visualize(penguins_hotv_features_train, penguins_hotv_label_train, param_grid, '4.b',
+                                  'Top-DT-hotv-penguins.png', 'accuracy', 5)
+perform_grid_search_and_visualize(penguins_manual_features_train, penguins_manual_label_train, param_grid, '4.b',
+                                  'Top-DT-manual-penguins.png', 'accuracy', 5)
+
+
+########################################################################################################################
+# 4.c ##################################################################################################################
+########################################################################################################################
+
+def train_base_mlp(features_train, labels_train):
+    # Create the MLP model
+    mlp_model = MLPClassifier(hidden_layer_sizes=(100, 100), activation='logistic', solver='sgd')
+
+    # Train the model
+    mlp_model.fit(features_train, labels_train)
+
+    return mlp_model
+
+
+# Train the model for each dataset
+mlp_abalone = train_base_mlp(abalone_features_train, abalone_label_train)
+mlp_penguins_hotv = train_base_mlp(penguins_hotv_features_train, penguins_hotv_label_train)
+mlp_penguins_manual = train_base_mlp(penguins_manual_features_train, penguins_manual_label_train)
+
+########################################################################################################################
+# 4.d ##################################################################################################################
+########################################################################################################################
+
+# Define the parameter grid
+param_grid = {
+    'activation': ['logistic', 'tanh', 'relu'],  # logistic for sigmoid
+    'hidden_layer_sizes': [(30, 50), (10, 10, 10)],
+    'solver': ['adam', 'sgd']
+}
+
+
+def perform_mlp_grid_search(features_train, labels_train):
+    mlp = MLPClassifier()
+    grid_search = GridSearchCV(mlp, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+    grid_search.fit(features_train, labels_train)
+    return grid_search.best_estimator_
+
+
+# Apply the grid search to each dataset
+top_mlp_abalone = perform_mlp_grid_search(abalone_features_train, abalone_label_train)
+top_mlp_penguins_hotv = perform_mlp_grid_search(penguins_hotv_features_train, penguins_hotv_label_train)
+top_mlp_penguins_manual = perform_mlp_grid_search(penguins_manual_features_train, penguins_manual_label_train)
