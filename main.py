@@ -4,10 +4,26 @@ import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPClassifier
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
 import numpy as np
-import csv
 import imageio.v2 as imageio
 import os
+import shutil
+
+# The commented out code is for clearing the directory in case I need it to be cleared
+# def clear_directory(directory):
+#     for filename in os.listdir(directory):
+#         file_path = os.path.join(directory, filename)
+#         try:
+#             if os.path.isfile(file_path) or os.path.islink(file_path):
+#                 os.unlink(file_path)
+#             elif os.path.isdir(file_path):
+#                 shutil.rmtree(file_path)
+#         except Exception as e:
+#             print(f'Failed to delete {file_path}. Reason: {e}')
+#
+#
+# clear_directory('2.5')
 
 ########################################################################################################################
 # Step 2 ###############################################################################################################
@@ -93,8 +109,6 @@ plot_class_distribution(og_data_abalone, 'Type', 'abalone-classes.gif')
 # Step 2.3 #############################################################################################################
 ########################################################################################################################
 
-from sklearn.model_selection import train_test_split
-
 # Penguins dataset with 1-hot vector encoding
 # Separation of label and features
 penguins_hotv_features = penguins_hotv_data.drop('species', axis=1)
@@ -130,10 +144,49 @@ abalone_features_train, abalone_features_test, abalone_label_train, abalone_labe
 # Step 2.4 #############################################################################################################
 ########################################################################################################################
 
+# I added the Step 5 function here because it caused errors when I initialize it at the end of the file
+# like if it was visible because it is not initialized yet
+def evaluate_and_save_decision_tree_model(model, features_test, labels_test, model_description, filename):
+    # Create the directory if it doesn't exist
+    directory = '2.5'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    file_path = os.path.join(directory, filename)
+
+    with open(file_path, 'a') as file:
+        # Separator and Model Description (A)
+        file.write('-' * 50 + '\n')
+        file.write(f"(A) Model Evaluation: {model_description}\n")
+
+        # Predict the labels for the test set
+        labels_pred = model.predict(features_test)
+
+        # Confusion Matrix (B)
+        file.write("\n(B) Confusion Matrix:\n")
+        file.write(str(confusion_matrix(labels_test, labels_pred)) + '\n')
+
+        # Precision, Recall, and F1-Measure for each class (C)
+        file.write("\n(C) Classification Report:\n")
+        file.write(classification_report(labels_test, labels_pred) + '\n')
+
+        # Accuracy, Macro-average F1 and Weighted-average F1 of the model (D)
+        accuracy = accuracy_score(labels_test, labels_pred)
+        report = classification_report(labels_test, labels_pred, output_dict=True)
+        macro_avg_f1 = report['macro avg']['f1-score']
+        weighted_avg_f1 = report['weighted avg']['f1-score']
+
+        file.write("\n(D) Model Performance Metrics:\n")
+        file.write(f"Accuracy: {accuracy:.2f}\n")
+        file.write(f"Macro-average F1: {macro_avg_f1:.2f}\n")
+        file.write(f"Weighted-average F1: {weighted_avg_f1:.2f}\n")
+        file.write('-' * 50 + '\n')
+
+
 ########################################################################################################################
 # 4.a ##################################################################################################################
 ########################################################################################################################
-def train_and_save_base_decision_tree(features, labels, max_depth, directory, filename):
+def train_and_save_base_decision_tree(features, labels, max_depth, directory, filename, description, file_name):
     # Create and train the decision tree model
     decision_tree_model = DecisionTreeClassifier(max_depth=max_depth)
     decision_tree_model.fit(features, labels)
@@ -150,19 +203,26 @@ def train_and_save_base_decision_tree(features, labels, max_depth, directory, fi
     plt.savefig(os.path.join(directory, filename), format='png', bbox_inches='tight')
     plt.close()
 
+    # For Step 2.5
+    evaluate_and_save_decision_tree_model(decision_tree_model, features, labels, description,
+                                          file_name)
 
-train_and_save_base_decision_tree(abalone_features_train, abalone_label_train, 3, '4.a', 'Base-DT-abalone.png')
+
+train_and_save_base_decision_tree(abalone_features_train, abalone_label_train, 3, '4.a',
+                                  'Base-DT-abalone.png', "Base-DT-Abalone Max Depth 3", "abalone-performance.txt")
 train_and_save_base_decision_tree(penguins_hotv_features_train, penguins_hotv_label_train, None, '4.a',
-                                  'Base-DT-hotv-penguins.png')
+                                  'Base-DT-hotv-penguins.png', 'Base-DT-penguins-hotv', 'penguins-hotv-performance.txt')
 train_and_save_base_decision_tree(penguins_manual_features_train, penguins_manual_label_train, None, '4.a',
-                                  'Base-DT-manual-penguins.png')
+                                  'Base-DT-manual-penguins.png', 'Base-DT-penguins-manual',
+                                  'penguins-manual-performance.txt')
 
 
 ########################################################################################################################
 # 4.b ##################################################################################################################
 ########################################################################################################################
 
-def perform_grid_search_and_visualize(features, labels, param_grid, base_dir, top_filename, scoring, cv):
+def perform_grid_search_and_visualize(features, labels, param_grid, base_dir, top_filename, scoring, cv, description,
+                                      file_name):
     # Initialize and fit the GridSearchCV
     dt_grid_search = GridSearchCV(DecisionTreeClassifier(), param_grid, scoring=scoring, cv=cv)
     dt_grid_search.fit(features, labels)
@@ -180,6 +240,10 @@ def perform_grid_search_and_visualize(features, labels, param_grid, base_dir, to
     plt.savefig(os.path.join(base_dir, top_filename), format='png', bbox_inches='tight')
     plt.close()
 
+    description = description, " scoring=", scoring, " cv=", cv
+
+    evaluate_and_save_decision_tree_model(best_dt_model, features, labels, description, file_name)
+
 
 # Define the parameter grid
 param_grid = {
@@ -189,31 +253,39 @@ param_grid = {
 }
 
 perform_grid_search_and_visualize(abalone_features_train, abalone_label_train, param_grid, '4.b',
-                                  'Top-DT-abalone.png', 'accuracy', 5)
+                                  'Top-DT-abalone.png', 'accuracy', 5, 'Top-DT-abalone', 'abalone-performance.txt')
 perform_grid_search_and_visualize(penguins_hotv_features_train, penguins_hotv_label_train, param_grid, '4.b',
-                                  'Top-DT-hotv-penguins.png', 'accuracy', 5)
+                                  'Top-DT-hotv-penguins.png', 'accuracy', 5, 'Top-DT-hotv-penguins',
+                                  'penguins-hotv-performance.txt')
 perform_grid_search_and_visualize(penguins_manual_features_train, penguins_manual_label_train, param_grid, '4.b',
-                                  'Top-DT-manual-penguins.png', 'accuracy', 5)
+                                  'Top-DT-manual-penguins.png', 'accuracy', 5, 'Top-DT-manual-penguins',
+                                  'penguins-manual-performance.txt')
 
 
 ########################################################################################################################
 # 4.c ##################################################################################################################
 ########################################################################################################################
 
-def train_base_mlp(features_train, labels_train):
+def train_base_mlp(features, labels, description, file_name):
     # Create the MLP model
     mlp_model = MLPClassifier(hidden_layer_sizes=(100, 100), activation='logistic', solver='sgd')
 
     # Train the model
-    mlp_model.fit(features_train, labels_train)
+    mlp_model.fit(features, labels)
+
+    description = description, ' activation=', mlp_model.activation, ' solver=', mlp_model.solver
+
+    evaluate_and_save_decision_tree_model(mlp_model, features, labels, description, file_name)
 
     return mlp_model
 
 
 # Train the model for each dataset
-mlp_abalone = train_base_mlp(abalone_features_train, abalone_label_train)
-mlp_penguins_hotv = train_base_mlp(penguins_hotv_features_train, penguins_hotv_label_train)
-mlp_penguins_manual = train_base_mlp(penguins_manual_features_train, penguins_manual_label_train)
+mlp_abalone = train_base_mlp(abalone_features_train, abalone_label_train, 'mlp-abalone', 'abalone-performance.txt')
+mlp_penguins_hotv = train_base_mlp(penguins_hotv_features_train, penguins_hotv_label_train, 'mlp-hotv-penguins',
+                                   'penguins-hotv-performance.txt')
+mlp_penguins_manual = train_base_mlp(penguins_manual_features_train, penguins_manual_label_train, 'mlp-manual-penguins',
+                                     'penguins-manual-performance.txt')
 
 ########################################################################################################################
 # 4.d ##################################################################################################################
@@ -227,14 +299,28 @@ param_grid = {
 }
 
 
-def perform_mlp_grid_search(features_train, labels_train):
+def perform_mlp_grid_search(features, labels, description, file_name):
     mlp = MLPClassifier()
     grid_search = GridSearchCV(mlp, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
-    grid_search.fit(features_train, labels_train)
+    grid_search.fit(features, labels)
+
+    description = description, ' scoring=', grid_search.scoring, ' cv=', grid_search.cv, ' n_jobs=', grid_search.n_jobs
+
+    evaluate_and_save_decision_tree_model(grid_search, features, labels, description, file_name)
+
     return grid_search.best_estimator_
 
 
 # Apply the grid search to each dataset
-top_mlp_abalone = perform_mlp_grid_search(abalone_features_train, abalone_label_train)
-top_mlp_penguins_hotv = perform_mlp_grid_search(penguins_hotv_features_train, penguins_hotv_label_train)
-top_mlp_penguins_manual = perform_mlp_grid_search(penguins_manual_features_train, penguins_manual_label_train)
+top_mlp_abalone = perform_mlp_grid_search(abalone_features_train, abalone_label_train, 'Top-mlp-abalone',
+                                          'abalone-performance.txt')
+top_mlp_penguins_hotv = perform_mlp_grid_search(penguins_hotv_features_train, penguins_hotv_label_train,
+                                                'Top-mlp-hotv-penguins', 'penguins-hotv-performance.txt')
+top_mlp_penguins_manual = perform_mlp_grid_search(penguins_manual_features_train, penguins_manual_label_train,
+                                                  'Top-mlp-manual-penguins', 'penguins-manual-performance.txt')
+
+########################################################################################################################
+# Step 2.5 #############################################################################################################
+########################################################################################################################
+
+# Step 2.5 has been moved to Step 2.4
